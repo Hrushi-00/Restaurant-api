@@ -1,0 +1,14 @@
+node_modules
+.git
+.github
+.env
+.env.*
+logs
+coverage
+.cache
+tmp
+temp
+docker-data
+reports
+test-results
+uploads/*

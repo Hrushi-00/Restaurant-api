@@ -1,0 +1,15 @@
+[Unit]
+Description=RestroFlow Backend API
+After=network.target
+
+[Service]
+Type=simple
+User=restroflow
+WorkingDirectory=/opt/restroflow-backend
+EnvironmentFile=/opt/restroflow-backend/.env
+ExecStart=/usr/bin/npm start
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
