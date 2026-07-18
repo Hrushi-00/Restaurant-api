@@ -1,0 +1,12 @@
+export const ROLES = {
+  OWNER: "OWNER",
+  ADMIN: "ADMIN",
+  MANAGER: "MANAGER",
+  CHEF: "CHEF",
+  WAITER: "WAITER",
+  CASHIER: "CASHIER",
+  KITCHEN_STAFF: "KITCHEN_STAFF",
+  CUSTOMER: "CUSTOMER",
+};
+
+export default ROLES;
