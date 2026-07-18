@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: restroflow-backend
+    runtime: node
+    branch: main
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /

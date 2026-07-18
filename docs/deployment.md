@@ -1,99 +1,44 @@
-# Production Deployment
+# Production Deployment on Render
 
-## CI/CD Overview
+## CI Overview
 
 - GitHub Actions runs `npm ci` and `npm test` on every pull request and push to `main`.
-- On a successful push to `main`, the workflow connects to your server over SSH.
-- The server does a `git pull`, reinstalls dependencies, runs the smoke test, and restarts the app.
+- Render handles deployment from the linked GitHub branch.
 
-## Secrets to Add in GitHub
+## Render Setup
 
-- `SSH_HOST`
-- `SSH_USER`
-- `SSH_KEY`
-- `SSH_PORT` optional, defaults to `22`
-- `APP_DIR`
+1. Push this repo to GitHub.
+2. In Render, create a new **Web Service** and connect the repo.
+3. Use the blueprint in [render.yaml](/f:/restroflow-backend/render.yaml:1) or let Render read it from the repo root.
+4. Set the service type to Node.
+5. Use these commands if you configure the service manually:
+   - Build Command: `npm ci`
+   - Start Command: `npm start`
+6. Add environment variables in the Render dashboard.
 
-## One-Time Server Setup
+## Required Environment Variables
 
-Use an Ubuntu server as the example here.
-
-```bash
-sudo apt update
-sudo apt install -y git curl
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-sudo apt install -y nodejs
-sudo npm install -g pm2
-```
-
-Then clone the repo into your app directory:
-
-```bash
-git clone <your-repo-url> /opt/restroflow-backend
-cd /opt/restroflow-backend
-cp .env.example .env
-npm ci --omit=dev
-```
-
-Edit `.env` and fill in your real values, especially:
+Set these on Render:
 
 - `MONGO_URI`
 - `JWT_ACCESS_SECRET`
 - `JWT_REFRESH_SECRET`
 - `CLIENT_URL`
 
-## Server Setup With PM2
+Optional, only if you use them:
 
-1. Install Node.js 20+ on the server.
-2. Clone the repository to the directory stored in `APP_DIR`.
-3. Create the `.env` file in that directory.
-4. Install dependencies with `npm ci --omit=dev`.
-5. Start the app with:
-
-```bash
-pm2 start ecosystem.config.cjs --env production
-pm2 save
-pm2 startup
-```
-
-6. On later deployments, the GitHub Action will reload the same PM2 process.
-
-### Useful PM2 Commands
-
-```bash
-pm2 status
-pm2 logs restroflow-backend
-pm2 restart restroflow-backend
-pm2 save
-```
-
-## Systemd Alternative
-
-If you do not want PM2, use the service file in `deploy/restroflow-backend.service`.
-
-1. Copy it to `/etc/systemd/system/restroflow-backend.service`.
-2. Update `User` and `WorkingDirectory` to match your server.
-3. Run:
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable restroflow-backend
-sudo systemctl start restroflow-backend
-sudo systemctl status restroflow-backend
-```
-
-## GitHub Action Flow
-
-On each push to `main`:
-
-1. GitHub Actions installs dependencies and runs `npm test`.
-2. If tests pass, it SSHs into your server.
-3. The server updates the repo with `git pull`.
-4. Dependencies are refreshed with `npm ci --omit=dev`.
-5. The app restarts through PM2 or the fallback `node` process.
+- `REDIS_URL`
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_USER`
+- `SMTP_PASS`
+- `RAZORPAY_KEY_ID`
+- `RAZORPAY_KEY_SECRET`
+- `SENTRY_DSN`
 
 ## Notes
 
-- The app expects MongoDB and any other external services to be reachable from the server.
+- Render provides `PORT` automatically for web services, and the app should read it from `process.env.PORT`.
+- Render web services must bind to `0.0.0.0` and Render recommends using the `PORT` environment variable.
+- After the first deploy, pushes to the linked branch can auto-deploy by default unless you turn auto-deploy off in Render.
 - `npm test` is a smoke test that checks the HTTP root route.
-- If you want a more advanced health check, we can add `/health` and point CI at that route.
