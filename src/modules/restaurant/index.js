@@ -1,3 +1,3 @@
 import restaurantRoutes from "./restaurant.routes.js";
 
-export default restaurantRoutes;
+export default restaurantRoutes; 

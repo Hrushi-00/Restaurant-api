@@ -43,18 +43,39 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_KEY: ${{ secrets.SSH_KEY }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      APP_DIR: ${{ secrets.APP_DIR }}
 
     steps:
+      - name: Validate deploy secrets
+        shell: bash
+        run: |
+          missing=()
+
+          [ -n "$SSH_HOST" ] || missing+=("SSH_HOST")
+          [ -n "$SSH_USER" ] || missing+=("SSH_USER")
+          [ -n "$SSH_KEY" ] || missing+=("SSH_KEY")
+          [ -n "$APP_DIR" ] || missing+=("APP_DIR")
+
+          if [ "${#missing[@]}" -ne 0 ]; then
+            echo "Missing required GitHub secrets: ${missing[*]}"
+            exit 1
+          fi
+
       - name: Deploy over SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT || 22 }}
+          host: ${{ env.SSH_HOST }}
+          username: ${{ env.SSH_USER }}
+          key: ${{ env.SSH_KEY }}
+          port: ${{ env.SSH_PORT || 22 }}
           script_stop: true
           script: |
-            cd "${{ secrets.APP_DIR }}"
+            cd "${{ env.APP_DIR }}"
             git pull origin main
             npm ci --omit=dev
             npm test
