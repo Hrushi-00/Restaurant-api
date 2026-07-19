@@ -1,6 +1,7 @@
 import { Router } from "express";
 
-import CategoryController from "./category.controller.js";
+import MenuController from "./menu.controller.js";
+
 import authMiddleware from "../../middlewares/auth.middleware.js";
 import roleMiddleware from "../../middlewares/role.middleware.js";
 import validationMiddleware from "../../middlewares/validation.middleware.js";
@@ -8,23 +9,27 @@ import validationMiddleware from "../../middlewares/validation.middleware.js";
 import ROLES from "../../constants/roles.js";
 
 import {
-  createCategoryValidation,
-  updateCategoryValidation,
-} from "./category.validation.js";
+  createMenuValidation,
+  updateMenuValidation,
+} from "./menu.validation.js";
 
 const router = Router();
 
-// Create Category
+/**
+ * Create Menu Item
+ */
 router.post(
   "/create",
   authMiddleware,
   roleMiddleware(ROLES.OWNER, ROLES.ADMIN),
-  createCategoryValidation,
+  createMenuValidation,
   validationMiddleware,
-  CategoryController.createCategory
+  MenuController.createMenu
 );
 
-// Get All Categories
+/**
+ * Get All Menu Items
+ */
 router.get(
   "/list",
   authMiddleware,
@@ -32,12 +37,16 @@ router.get(
     ROLES.OWNER,
     ROLES.ADMIN,
     ROLES.MANAGER,
-    ROLES.CHEF
+    ROLES.CHEF,
+    ROLES.WAITER,
+    ROLES.CASHIER
   ),
-  CategoryController.getAllCategories
+  MenuController.getAllMenu
 );
 
-// Get Category By Id
+/**
+ * Get Menu Item Details
+ */
 router.get(
   "/details/:id",
   authMiddleware,
@@ -45,35 +54,47 @@ router.get(
     ROLES.OWNER,
     ROLES.ADMIN,
     ROLES.MANAGER,
-    ROLES.CHEF
+    ROLES.CHEF,
+    ROLES.WAITER,
+    ROLES.CASHIER
   ),
-  CategoryController.getCategoryById
+  MenuController.getMenuById
 );
 
-// Update Category
+/**
+ * Update Menu Item
+ */
 router.put(
   "/update/:id",
   authMiddleware,
   roleMiddleware(ROLES.OWNER, ROLES.ADMIN),
-  updateCategoryValidation,
+  updateMenuValidation,
   validationMiddleware,
-  CategoryController.updateCategory
+  MenuController.updateMenu
 );
 
-// Change Category Status
+/**
+ * Change Availability
+ */
 router.patch(
-  "/status/:id",
+  "/availability/:id",
   authMiddleware,
-  roleMiddleware(ROLES.OWNER, ROLES.ADMIN),
-  CategoryController.updateStatus
+  roleMiddleware(
+    ROLES.OWNER,
+    ROLES.ADMIN,
+    ROLES.MANAGER
+  ),
+  MenuController.updateAvailability
 );
 
-// Delete Category
+/**
+ * Delete Menu Item
+ */
 router.delete(
   "/delete/:id",
   authMiddleware,
   roleMiddleware(ROLES.OWNER),
-  CategoryController.deleteCategory
+  MenuController.deleteMenu
 );
 
 export default router;
