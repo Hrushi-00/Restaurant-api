@@ -1,5 +1,3 @@
-// src/modules/menu/menu.service.js
-
 import MenuRepository from "./menu.repository.js";
 import CategoryRepository from "../category/category.repository.js";
 import RestaurantRepository from "../restaurant/restaurant.repository.js";

@@ -1,4 +1,3 @@
-// src/modules/category/category.service.js
 
 import CategoryRepository from "./category.repository.js";
 import RestaurantRepository from "../restaurant/restaurant.repository.js";

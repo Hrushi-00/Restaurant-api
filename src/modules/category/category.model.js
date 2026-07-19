@@ -46,7 +46,6 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
-// Compound index to prevent duplicate category names in the same restaurant
 categorySchema.index(
   { tenantId: 1, name: 1 },
   { unique: true }

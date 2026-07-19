@@ -1,4 +1,3 @@
-// src/modules/staff/staff.controller.js
 
 import StaffService from "./staff.service.js";
 import ApiResponse from "../../utils/ApiResponse.js";

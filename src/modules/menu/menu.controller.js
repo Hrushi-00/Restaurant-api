@@ -1,5 +1,3 @@
-// src/modules/menu/menu.controller.js
-
 import MenuService from "./menu.service.js";
 import ApiResponse from "../../utils/ApiResponse.js";
 import asyncHandler from "../../utils/asyncHandler.js";

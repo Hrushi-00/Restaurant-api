@@ -1,4 +1,3 @@
-// src/modules/category/category.controller.js
 
 import CategoryService from "./category.service.js";
 import ApiResponse from "../../utils/ApiResponse.js";

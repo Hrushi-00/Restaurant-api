@@ -1,5 +1,3 @@
-// src/modules/menu/menu.dto.js
-
 export const menuResponse = (menu) => ({
   id: menu._id,
 

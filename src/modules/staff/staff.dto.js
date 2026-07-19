@@ -1,4 +1,3 @@
-// src/modules/staff/staff.dto.js
 
 export const staffResponse = (staff) => ({
   id: staff._id,
