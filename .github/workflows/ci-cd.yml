@@ -15,7 +15,7 @@ permissions:
 
 env:
   NODE_VERSION: "22"
-  IMAGE_NAME: ghcr.io/${{ github.repository }}
+  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/restroflow-backend
   CONTAINER_NAME: restroflow-backend
   CONTAINER_PORT: "5000"
 
