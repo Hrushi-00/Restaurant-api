@@ -144,4 +144,4 @@ jobs:
               --env-file "${DEPLOY_DIR}/.env" \
               -p "${CONTAINER_PORT}:5000" \
               -v "${DEPLOY_DIR}/uploads:/usr/src/app/uploads" \
-              "${IMAGE_NAME}:latest"
+              "${IMAGE_NAME}:latest" 
