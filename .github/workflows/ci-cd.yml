@@ -11,9 +11,13 @@ on:
 
 permissions:
   contents: read
+  packages: write
 
 env:
   NODE_VERSION: "22"
+  IMAGE_NAME: ghcr.io/${{ github.repository }}
+  CONTAINER_NAME: restroflow-backend
+  CONTAINER_PORT: "5000"
 
 jobs:
   test:
@@ -36,3 +40,104 @@ jobs:
 
       - name: Run tests
         run: npm test
+
+  docker-build:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix=
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: docker-build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
+          CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
+          CONTAINER_PORT: ${{ env.CONTAINER_PORT }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          GHCR_USERNAME: ${{ github.actor }}
+          GHCR_PAT: ${{ secrets.GHCR_PAT }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+          CLIENT_URL: ${{ secrets.CLIENT_URL }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          RAZORPAY_KEY_ID: ${{ secrets.RAZORPAY_KEY_ID }}
+          RAZORPAY_KEY_SECRET: ${{ secrets.RAZORPAY_KEY_SECRET }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: IMAGE_NAME,CONTAINER_NAME,CONTAINER_PORT,DEPLOY_PATH,GHCR_USERNAME,GHCR_PAT,MONGO_URI,JWT_ACCESS_SECRET,JWT_REFRESH_SECRET,CLIENT_URL,REDIS_URL,RAZORPAY_KEY_ID,RAZORPAY_KEY_SECRET
+          script: |
+            set -e
+
+            mkdir -p "${DEPLOY_PATH}"
+
+            cat > "${DEPLOY_PATH}/.env" <<EOF
+            NODE_ENV=production
+            PORT=5000
+            MONGO_URI=${MONGO_URI}
+            JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET}
+            JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+            CLIENT_URL=${CLIENT_URL}
+            REDIS_URL=${REDIS_URL}
+            RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID}
+            RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET}
+            EOF
+
+            echo "${GHCR_PAT}" | docker login ghcr.io -u "${GHCR_USERNAME}" --password-stdin
+            docker pull "${IMAGE_NAME}:latest"
+
+            docker stop "${CONTAINER_NAME}" || true
+            docker rm "${CONTAINER_NAME}" || true
+
+            docker run -d \
+              --name "${CONTAINER_NAME}" \
+              --restart unless-stopped \
+              --env-file "${DEPLOY_PATH}/.env" \
+              -p "${CONTAINER_PORT}:5000" \
+              -v "${DEPLOY_PATH}/uploads:/usr/src/app/uploads" \
+              "${IMAGE_NAME}:latest"

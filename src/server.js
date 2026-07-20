@@ -12,10 +12,10 @@ await connectDB();
 // Start Server
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`
-========================================
+
  RestroFlow Server Started
  URL   : http://localhost:${PORT}
  ENV   : ${process.env.NODE_ENV}
-========================================
+
 `);
 });
