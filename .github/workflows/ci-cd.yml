@@ -114,9 +114,13 @@ jobs:
           script: |
             set -e
 
-            mkdir -p "${DEPLOY_PATH}"
+            DEPLOY_DIR="${DEPLOY_PATH:-$HOME/restroflow-backend}"
+            if ! mkdir -p "${DEPLOY_DIR}" 2>/dev/null; then
+              DEPLOY_DIR="$HOME/restroflow-backend"
+              mkdir -p "${DEPLOY_DIR}"
+            fi
 
-            cat > "${DEPLOY_PATH}/.env" <<EOF
+            cat > "${DEPLOY_DIR}/.env" <<EOF
             NODE_ENV=production
             PORT=5000
             MONGO_URI=${MONGO_URI}
@@ -137,7 +141,7 @@ jobs:
             docker run -d \
               --name "${CONTAINER_NAME}" \
               --restart unless-stopped \
-              --env-file "${DEPLOY_PATH}/.env" \
+              --env-file "${DEPLOY_DIR}/.env" \
               -p "${CONTAINER_PORT}:5000" \
-              -v "${DEPLOY_PATH}/uploads:/usr/src/app/uploads" \
+              -v "${DEPLOY_DIR}/uploads:/usr/src/app/uploads" \
               "${IMAGE_NAME}:latest"
