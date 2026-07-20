@@ -15,7 +15,6 @@ permissions:
 
 env:
   NODE_VERSION: "22"
-  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/restroflow-backend
   CONTAINER_NAME: restroflow-backend
   CONTAINER_PORT: "5000"
 
@@ -28,6 +27,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set image name
+        run: echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/restroflow-backend" >> "$GITHUB_ENV"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -50,6 +52,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set image name
+        run: echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/restroflow-backend" >> "$GITHUB_ENV"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
