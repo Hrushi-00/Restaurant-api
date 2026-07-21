@@ -364,13 +364,7 @@ MERN Stack Developer
 - LinkedIn: [https://www.linkedin.com/in/hrushikesh-kapse](https://www.linkedin.com/in/hrushikesh-kapse)
 - Portfolio: [https://www.hrushikeshkapse.site/](https://www.hrushikeshkapse.site/)
 
----
 
-# 📄 License
-
-This project is licensed under the MIT License.
-
----
 
 <div align="center">
 
