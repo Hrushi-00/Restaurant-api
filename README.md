@@ -360,9 +360,9 @@ If you found this project helpful, please give it a ⭐ on GitHub.
 
 MERN Stack Developer
 
-- GitHub: https://github.com/yourusername
-- LinkedIn: https://linkedin.com/in/yourprofile
-- Portfolio: https://yourportfolio.com
+- GitHub: [https://github.com/Hrushi-00](https://github.com/Hrushi-00)
+- LinkedIn: [https://www.linkedin.com/in/hrushikesh-kapse](https://www.linkedin.com/in/hrushikesh-kapse)
+- Portfolio: [https://www.hrushikeshkapse.site/](https://www.hrushikeshkapse.site/)
 
 ---
 
