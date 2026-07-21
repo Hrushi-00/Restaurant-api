@@ -5,6 +5,9 @@ services:
       dockerfile: docker/Dockerfile
     env_file:
       - .env
+    environment:
+      MONGO_URI: mongodb://mongo:27017/restroflow
+      REDIS_URL: redis://redis:6379
     ports:
       - "5000:5000"
     depends_on:
@@ -27,6 +30,25 @@ services:
       timeout: 5s
       retries: 3
       start_period: 30s
+
+  worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    env_file:
+      - .env
+    environment:
+      MONGO_URI: mongodb://mongo:27017/restroflow
+      REDIS_URL: redis://redis:6379
+    command: ["node", "src/worker.js"]
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./uploads:/usr/src/app/uploads
+    restart: unless-stopped
 
   mongo:
     image: mongo:7

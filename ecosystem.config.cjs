@@ -17,5 +17,20 @@ module.exports = {
         PORT: 5000,
       },
     },
+    {
+      name: "restroflow-worker",
+      script: "src/worker.js",
+      instances: 1,
+      exec_mode: "fork",
+      autorestart: true,
+      watch: false,
+      max_memory_restart: "512M",
+      env: {
+        NODE_ENV: "development",
+      },
+      env_production: {
+        NODE_ENV: "production",
+      },
+    },
   ],
 };

@@ -17,6 +17,12 @@ docker compose up --build
 
 The API will be available on `http://localhost:5000`.
 
+For local non-Docker development, keep `MONGO_URI` and `REDIS_URL` pointed at `localhost` in your `.env`.
+For Docker Compose, the stack overrides those values to use service names:
+
+- `MONGO_URI=mongodb://mongo:27017/restroflow`
+- `REDIS_URL=redis://redis:6379`
+
 ## Production Deployment
 
 1. Push the repo to GitHub.
@@ -40,6 +46,7 @@ docker run -d \
 ```
 
 If you prefer Docker Compose on the server, use the same image in your `docker-compose.yml` and keep the env vars in an `.env` file.
+If the app runs inside the same Compose network as MongoDB and Redis, use the service-name URLs above instead of `localhost`.
 
 ## GitHub Actions Secrets
 

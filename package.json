@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
+    "worker": "node src/worker.js",
     "test": "node scripts/smoke-test.js"
   },
   "engines": {
@@ -22,6 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "bullmq": "^5.80.9",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
@@ -32,6 +34,7 @@
     "mongoose": "^9.7.4",
     "morgan": "^1.11.0",
     "multer": "^2.2.0",
+    "redis": "^6.1.0",
     "uuid": "^14.0.1"
   },
   "devDependencies": {
