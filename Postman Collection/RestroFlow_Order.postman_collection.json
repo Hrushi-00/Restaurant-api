@@ -1,0 +1,208 @@
+{
+  "info": {
+    "_postman_id": "8a6f5c4d-91b2-4b8e-9d8d-0b4d8d9a1234",
+    "name": "RestroFlow - Order Module",
+    "description": "Order Module APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api/orders"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "orderId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"customerName\": \"Hrushikesh Kapse\",\n    \"customerPhone\": \"9876543211\",\n    \"orderType\": \"DINE_IN\",\n    \"items\": [\n        {\n            \"menuId\": \"687b7fdbe1b59a78d89d7dbd\",\n            \"quantity\": 2\n        },\n        {\n            \"menuId\": \"687b80a6e1b59a78d89d7dd0\",\n            \"quantity\": 1\n        }\n    ],\n    \"discount\": 50,\n    \"paymentMethod\": \"UPI\",\n    \"notes\": \"Less spicy\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "create"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get All Orders",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/list",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "list"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Order Details",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/details/{{orderId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "details",
+            "{{orderId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Order",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"customerName\": \"Hrushikesh\",\n    \"customerPhone\": \"9999999999\",\n    \"orderType\": \"TAKEAWAY\",\n    \"items\": [\n        {\n            \"menuId\": \"687b7fdbe1b59a78d89d7dbd\",\n            \"quantity\": 3\n        }\n    ],\n    \"discount\": 100,\n    \"paymentMethod\": \"CARD\",\n    \"notes\": \"Extra Cheese\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/update/{{orderId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "update",
+            "{{orderId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Order Status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"orderStatus\": \"PREPARING\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/status/{{orderId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "status",
+            "{{orderId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Payment Status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"paymentStatus\": \"PAID\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/payment/{{orderId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "payment",
+            "{{orderId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete Order",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/delete/{{orderId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "delete",
+            "{{orderId}}"
+          ]
+        }
+      }
+    }
+  ]
+}
