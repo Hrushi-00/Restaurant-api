@@ -5,6 +5,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import routes from "./routes/index.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
+
 const app = express();
 
 // Security

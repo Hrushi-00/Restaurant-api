@@ -10,6 +10,9 @@ import tableRoutes from "../modules/table/index.js";
 import customerRoutes from "../modules/customer/index.js";
 import kotRoutes from "../modules/kitchen/index.js";
 import qrMenuRoutes from "../modules/qr-menu/index.js";
+import reservationRoutes from "../modules/reservation/index.js";
+import paymentRoutes from "../modules/payment/index.js";
+import inventoryRoutes from "../modules/inventory/index.js";
 const router = Router();
 
 router.use("/auth", authRoutes);
@@ -22,4 +25,8 @@ router.use("/tables", tableRoutes);
 router.use("/customers", customerRoutes);
 router.use("/kot", kotRoutes);
 router.use("/qr-menu", qrMenuRoutes);
+router.use("/reservation", reservationRoutes);
+router.use("/payment", paymentRoutes);
+router.use("/inventory", inventoryRoutes);
+
 export default router;
