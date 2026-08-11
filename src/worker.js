@@ -1,6 +1,4 @@
-import dotenv from "dotenv";
-dotenv.config();
-
+import "./config/env.js";
 import "./workers/index.js";
 import { closeBullMQ } from "./config/bullmq.js";
 

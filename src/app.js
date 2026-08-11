@@ -1,3 +1,4 @@
+import "./config/env.js";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -27,6 +28,7 @@ app.use(cookieParser());
 // Logging
 app.use(morgan("dev"));
 app.use("/api/v1", routes);
+
 
 
 app.use(errorMiddleware);

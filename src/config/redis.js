@@ -1,16 +1,23 @@
+import "./env.js";
 import { createClient } from "redis";
 
 const redisUrl = process.env.REDIS_URL;
+let redisDisabled = false;
 
 const redisClient = redisUrl
   ? createClient({
       url: redisUrl,
+      socket: {
+        connectTimeout: 3000,
+        reconnectStrategy: false,
+      },
     })
   : null;
 
 if (redisClient) {
   redisClient.on("error", (error) => {
-    console.error("Redis Client Error:", error.message);
+    const message = error?.message || error?.code || String(error);
+    console.error("Redis Client Error:", message);
   });
 
   redisClient.on("connect", () => {
@@ -23,13 +30,27 @@ if (redisClient) {
 }
 
 const connectRedis = async () => {
-  if (!redisClient) {
+  if (!redisClient || redisDisabled) {
     console.warn("REDIS_URL is not set. Redis is disabled.");
     return null;
   }
 
   if (!redisClient.isOpen) {
-    await redisClient.connect();
+    try {
+      await redisClient.connect();
+    } catch (error) {
+      const message = error?.message || error?.code || String(error);
+      console.warn(`Redis unavailable. Continuing without Redis: ${message}`);
+      if (redisClient.isOpen) {
+        try {
+          redisClient.destroy();
+        } catch {
+          // The client may already be closed after a failed connect attempt.
+        }
+      }
+      redisDisabled = true;
+      return null;
+    }
   }
 
   return redisClient;

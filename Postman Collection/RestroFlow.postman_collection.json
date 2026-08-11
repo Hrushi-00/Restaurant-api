@@ -1,11 +1,25 @@
 {
   "info": {
     "name": "RestroFlow API",
-    "_postman_id": "a8b4d6f3-6d6c-4d9f-9f8a-123456789abc",
-    "description": "RestroFlow Backend API Collection",
+    "_postman_id": "f2d3f1e4-7cc0-4b31-9cfd-6c9ec2b8a001",
+    "description": "Full Postman collection for the RestroFlow backend API.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
   "variable": [
+    {
+      "key": "appUrl",
+      "value": "http://localhost:5000"
+    },
     {
       "key": "baseUrl",
       "value": "http://localhost:5000/api/v1"
@@ -13,6 +27,78 @@
     {
       "key": "accessToken",
       "value": ""
+    },
+    {
+      "key": "restaurantId",
+      "value": "64b7c0f8d7f4c3a1e2f9a001"
+    },
+    {
+      "key": "staffId",
+      "value": "64b7c0f8d7f4c3a1e2f9a002"
+    },
+    {
+      "key": "categoryId",
+      "value": "64b7c0f8d7f4c3a1e2f9a003"
+    },
+    {
+      "key": "menuId",
+      "value": "64b7c0f8d7f4c3a1e2f9a004"
+    },
+    {
+      "key": "orderId",
+      "value": "64b7c0f8d7f4c3a1e2f9a005"
+    },
+    {
+      "key": "tableId",
+      "value": "64b7c0f8d7f4c3a1e2f9a006"
+    },
+    {
+      "key": "customerId",
+      "value": "64b7c0f8d7f4c3a1e2f9a007"
+    },
+    {
+      "key": "kotId",
+      "value": "64b7c0f8d7f4c3a1e2f9a008"
+    },
+    {
+      "key": "qrMenuId",
+      "value": "64b7c0f8d7f4c3a1e2f9a009"
+    },
+    {
+      "key": "reservationId",
+      "value": "64b7c0f8d7f4c3a1e2f9a00a"
+    },
+    {
+      "key": "paymentId",
+      "value": "64b7c0f8d7f4c3a1e2f9a00b"
+    },
+    {
+      "key": "inventoryId",
+      "value": "64b7c0f8d7f4c3a1e2f9a00c"
+    },
+    {
+      "key": "supplierId",
+      "value": "64b7c0f8d7f4c3a1e2f9a00d"
+    },
+    {
+      "key": "chefId",
+      "value": "64b7c0f8d7f4c3a1e2f9a00e"
+    },
+    {
+      "key": "qrCode",
+      "value": "TABLE-001"
+    },
+    {
+      "key": "searchKeyword",
+      "value": "pizza"
+    },
+    {
+      "key": "expiringDays",
+      "value": "7"
+    },
+    {
+      "key": "tableStatus",
+      "value": "AVAILABLE"
     }
   ],
   "item": [
@@ -20,11 +106,9 @@
       "name": "Health Check",
       "request": {
         "method": "GET",
-        "url": {
-          "raw": "{{baseUrl}}",
-          "host": [
-            "{{baseUrl}}"
-          ]
+        "url": "{{appUrl}}/",
+        "auth": {
+          "type": "noauth"
         }
       }
     },
@@ -35,6 +119,7 @@
           "name": "Register",
           "request": {
             "method": "POST",
+            "url": "{{baseUrl}}/auth/register",
             "header": [
               {
                 "key": "Content-Type",
@@ -43,17 +128,10 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\":\"Hrushikesh Kapse\",\n    \"email\":\"hrushikesh@example.com\",\n    \"phone\":\"9876543210\",\n    \"password\":\"Password@123\"\n}"
+              "raw": "{\n  \"name\": \"Hrushikesh Kapse\",\n  \"email\": \"hrushikesh@example.com\",\n  \"phone\": \"9876543210\",\n  \"password\": \"Password@123!\"\n}"
             },
-            "url": {
-              "raw": "{{baseUrl}}/auth/register",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "register"
-              ]
+            "auth": {
+              "type": "noauth"
             }
           }
         },
@@ -61,6 +139,7 @@
           "name": "Login",
           "request": {
             "method": "POST",
+            "url": "{{baseUrl}}/auth/login",
             "header": [
               {
                 "key": "Content-Type",
@@ -69,40 +148,1049 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\":\"hrushikesh@example.com\",\n    \"password\":\"Password@123\"\n}"
+              "raw": "{\n  \"email\": \"hrushikesh@example.com\",\n  \"password\": \"Password@123!\"\n}"
             },
-            "url": {
-              "raw": "{{baseUrl}}/auth/login",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "login"
-              ]
+            "auth": {
+              "type": "noauth"
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "try {",
+                  "  var json = pm.response.json();",
+                  "  if (json && json.data && json.data.accessToken) {",
+                  "    pm.collectionVariables.set('accessToken', json.data.accessToken);",
+                  "  }",
+                  "} catch (error) {}"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "Logout",
           "request": {
             "method": "POST",
+            "url": "{{baseUrl}}/auth/logout"
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Restaurants",
+      "item": [
+        {
+          "name": "Create Restaurant",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/restaurants",
             "header": [
               {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
+                "key": "Content-Type",
+                "value": "application/json"
               }
             ],
-            "url": {
-              "raw": "{{baseUrl}}/auth/logout",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "logout"
-              ]
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"RestroFlow Downtown\",\n  \"email\": \"owner@restroflow.com\",\n  \"phone\": \"9876543210\",\n  \"address\": {\n    \"street\": \"MG Road\",\n    \"city\": \"Pune\",\n    \"state\": \"Maharashtra\",\n    \"country\": \"India\",\n    \"pincode\": \"411001\"\n  },\n  \"gstNumber\": \"27AAAAA0000A1Z5\",\n  \"fssaiNumber\": \"12345678901234\",\n  \"timezone\": \"Asia/Kolkata\",\n  \"currency\": \"INR\"\n}"
             }
+          }
+        },
+        {
+          "name": "Get My Restaurant",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/restaurants/me"
+          }
+        },
+        {
+          "name": "Get All Restaurants",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/restaurants"
+          }
+        },
+        {
+          "name": "Get Restaurant By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/restaurants/{{restaurantId}}"
+          }
+        },
+        {
+          "name": "Update Restaurant",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/restaurants/{{restaurantId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"RestroFlow Downtown Updated\",\n  \"phone\": \"9876543211\",\n  \"isActive\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Restaurant",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/restaurants/{{restaurantId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Staff",
+      "item": [
+        {
+          "name": "Create Staff",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/staff",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Aman Sharma\",\n  \"email\": \"aman@example.com\",\n  \"phone\": \"9876543211\",\n  \"role\": \"CHEF\",\n  \"salary\": 25000,\n  \"joiningDate\": \"2026-08-01\",\n  \"shift\": \"FULL_DAY\",\n  \"status\": \"ACTIVE\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Staff",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/staff"
+          }
+        },
+        {
+          "name": "Get Staff By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/staff/{{staffId}}"
+          }
+        },
+        {
+          "name": "Update Staff",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/staff/{{staffId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Aman Sharma Updated\",\n  \"role\": \"MANAGER\",\n  \"salary\": 28000,\n  \"status\": \"ACTIVE\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Staff Status",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/staff/{{staffId}}/status",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"INACTIVE\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Staff",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/staff/{{staffId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/categories/create",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Starters\",\n  \"description\": \"Appetizers and small plates\",\n  \"image\": \"https://example.com/category/starters.png\",\n  \"displayOrder\": 1,\n  \"isActive\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/categories/list"
+          }
+        },
+        {
+          "name": "Get Category By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/categories/details/{{categoryId}}"
+          }
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/categories/update/{{categoryId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Main Course\",\n  \"description\": \"Updated category description\",\n  \"displayOrder\": 2\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Category Status",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/categories/status/{{categoryId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isActive\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/categories/delete/{{categoryId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Menu",
+      "item": [
+        {
+          "name": "Create Menu Item",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/menu/create",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": \"{{categoryId}}\",\n  \"name\": \"Paneer Tikka\",\n  \"description\": \"Smoky paneer cubes with spices\",\n  \"sku\": \"MENU-PANEER-TIKKA\",\n  \"price\": 220,\n  \"discountPrice\": 199,\n  \"preparationTime\": 15,\n  \"foodType\": \"VEG\",\n  \"taxPercentage\": 5,\n  \"displayOrder\": 1,\n  \"isAvailable\": true,\n  \"isFeatured\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Menu Items",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/menu/list"
+          }
+        },
+        {
+          "name": "Get Menu Item By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/menu/details/{{menuId}}"
+          }
+        },
+        {
+          "name": "Update Menu Item",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/menu/update/{{menuId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": \"{{categoryId}}\",\n  \"name\": \"Paneer Tikka Updated\",\n  \"price\": 240,\n  \"discountPrice\": 210,\n  \"isFeatured\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Menu Availability",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/menu/availability/{{menuId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isAvailable\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Menu Item",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/menu/delete/{{menuId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/orders/create",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerName\": \"Rahul Mehta\",\n  \"customerPhone\": \"9876543210\",\n  \"orderType\": \"DINE_IN\",\n  \"items\": [\n    {\n      \"menuId\": \"{{menuId}}\",\n      \"quantity\": 2\n    }\n  ],\n  \"discount\": 20,\n  \"paymentMethod\": \"UPI\",\n  \"notes\": \"Less spicy\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/orders/list"
+          }
+        },
+        {
+          "name": "Get Order By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/orders/details/{{orderId}}"
+          }
+        },
+        {
+          "name": "Update Order",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/orders/update/{{orderId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerName\": \"Rahul Mehta Updated\",\n  \"items\": [\n    {\n      \"menuId\": \"{{menuId}}\",\n      \"quantity\": 1\n    }\n  ],\n  \"notes\": \"Please pack separately\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/orders/status/{{orderId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderStatus\": \"PREPARING\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Payment Status",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/orders/payment/{{orderId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentStatus\": \"PAID\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Order",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/orders/delete/{{orderId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tables",
+      "item": [
+        {
+          "name": "Create Table",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tables/create",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tableNumber\": \"T-01\",\n  \"tableName\": \"Window Table\",\n  \"capacity\": 4,\n  \"section\": \"Ground Floor\",\n  \"qrCode\": \"{{qrCode}}\",\n  \"isActive\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Tables",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/tables/list"
+          }
+        },
+        {
+          "name": "Get Table By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/tables/details/{{tableId}}"
+          }
+        },
+        {
+          "name": "Get Tables By Status",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/tables/status/{{tableStatus}}"
+          }
+        },
+        {
+          "name": "Update Table",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/tables/update/{{tableId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tableName\": \"Corner Table\",\n  \"capacity\": 6,\n  \"section\": \"First Floor\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Table Status",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/tables/status/{{tableId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"RESERVED\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Table",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/tables/delete/{{tableId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/customers/create",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rahul Mehta\",\n  \"phone\": \"9876543210\",\n  \"email\": \"rahul@example.com\",\n  \"gender\": \"MALE\",\n  \"dateOfBirth\": \"1995-05-10\",\n  \"address\": \"Pune, Maharashtra\",\n  \"notes\": \"VIP guest\",\n  \"isActive\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Customers",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/customers/list"
+          }
+        },
+        {
+          "name": "Search Customers",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/customers/search?keyword={{searchKeyword}}"
+          }
+        },
+        {
+          "name": "Top Customers",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/customers/top"
+          }
+        },
+        {
+          "name": "Recent Customers",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/customers/recent"
+          }
+        },
+        {
+          "name": "Get Customer By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/customers/details/{{customerId}}"
+          }
+        },
+        {
+          "name": "Update Customer",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/customers/update/{{customerId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rahul Mehta Updated\",\n  \"phone\": \"9876543212\",\n  \"address\": \"Updated address\",\n  \"notes\": \"Loyal customer\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Customer",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/customers/delete/{{customerId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "KOT",
+      "item": [
+        {
+          "name": "Create KOT",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/kot/create",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"{{orderId}}\",\n  \"tableId\": \"{{tableId}}\",\n  \"tokenNumber\": 12,\n  \"priority\": \"NORMAL\",\n  \"estimatedTime\": 20,\n  \"notes\": \"Serve hot\",\n  \"items\": [\n    {\n      \"menuItemId\": \"{{menuId}}\",\n      \"name\": \"Paneer Tikka\",\n      \"quantity\": 2,\n      \"station\": \"KITCHEN\",\n      \"notes\": \"No onion\"\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All KOT",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/kot/list"
+          }
+        },
+        {
+          "name": "Get KOT By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/kot/details/{{kotId}}"
+          }
+        },
+        {
+          "name": "Get Kitchen Queue",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/kot/kitchen-queue"
+          }
+        },
+        {
+          "name": "Get Ready Orders",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/kot/ready-orders"
+          }
+        },
+        {
+          "name": "Update KOT Status",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/kot/update-status/{{kotId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"PREPARING\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Assign Chef",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/kot/assign-chef/{{kotId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"chefId\": \"{{chefId}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete KOT",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/kot/delete/{{kotId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "QR Menu",
+      "item": [
+        {
+          "name": "Scan QR Menu",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/qr-menu/scan/{{qrCode}}",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Create QR Menu",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/qr-menu/create",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tableId\": \"{{tableId}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All QR Menus",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/qr-menu/list"
+          }
+        },
+        {
+          "name": "Get QR Menu By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/qr-menu/details/{{qrMenuId}}"
+          }
+        },
+        {
+          "name": "Update QR Menu Status",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/qr-menu/update-status/{{qrMenuId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"ACTIVE\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Regenerate QR Menu",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/qr-menu/regenerate/{{qrMenuId}}"
+          }
+        },
+        {
+          "name": "Delete QR Menu",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/qr-menu/delete/{{qrMenuId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reservations",
+      "item": [
+        {
+          "name": "Create Reservation",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/reservation/create",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tableId\": \"{{tableId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"guestName\": \"Rahul Mehta\",\n  \"mobile\": \"9876543210\",\n  \"email\": \"rahul@example.com\",\n  \"reservationDate\": \"2026-08-10\",\n  \"timeSlot\": \"19:30\",\n  \"guestCount\": 4,\n  \"specialRequest\": \"Window seat preferred\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Reservations",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/reservation/list"
+          }
+        },
+        {
+          "name": "Get Reservation By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/reservation/details/{{reservationId}}"
+          }
+        },
+        {
+          "name": "Update Reservation Status",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/reservation/update-status/{{reservationId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"CONFIRMED\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Check In Reservation",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/reservation/check-in/{{reservationId}}"
+          }
+        },
+        {
+          "name": "Check Out Reservation",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/reservation/check-out/{{reservationId}}"
+          }
+        },
+        {
+          "name": "Cancel Reservation",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/reservation/cancel/{{reservationId}}"
+          }
+        },
+        {
+          "name": "Delete Reservation",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/reservation/delete/{{reservationId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Create Payment Order",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/payment/create-order",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"{{orderId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"amount\": 500,\n  \"discount\": 20,\n  \"tax\": 25,\n  \"tip\": 0,\n  \"notes\": \"Payment for dine-in order\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Verify Payment",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/payment/verify-payment",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentId\": \"{{paymentId}}\",\n  \"razorpayOrderId\": \"order_TEST123\",\n  \"razorpayPaymentId\": \"pay_TEST123\",\n  \"razorpaySignature\": \"signature_test_value\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Refund Payment",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/payment/refund/{{paymentId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refundAmount\": 100,\n  \"refundReason\": \"Customer requested partial refund\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Payments",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/payment/list"
+          }
+        },
+        {
+          "name": "Get Payment By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/payment/details/{{paymentId}}"
+          }
+        },
+        {
+          "name": "Delete Payment",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/payment/delete/{{paymentId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inventory",
+      "item": [
+        {
+          "name": "Create Inventory",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/inventory/create",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"itemCode\": \"ING-0001\",\n  \"itemName\": \"Basmati Rice\",\n  \"category\": \"Grains\",\n  \"supplierId\": \"{{supplierId}}\",\n  \"unit\": \"KG\",\n  \"openingStock\": 50,\n  \"minimumStock\": 10,\n  \"maximumStock\": 100,\n  \"purchasePrice\": 70,\n  \"sellingPrice\": 90,\n  \"expiryDate\": \"2026-12-31\",\n  \"notes\": \"Primary kitchen stock\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Inventories",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inventory/list?page=1&limit=10&search={{searchKeyword}}&category=Grains&status=ACTIVE&lowStock=true"
+          }
+        },
+        {
+          "name": "Get Inventory By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inventory/details/{{inventoryId}}"
+          }
+        },
+        {
+          "name": "Update Inventory",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/inventory/update/{{inventoryId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"itemName\": \"Basmati Rice Premium\",\n  \"category\": \"Grains\",\n  \"unit\": \"KG\",\n  \"minimumStock\": 12,\n  \"maximumStock\": 120,\n  \"purchasePrice\": 75,\n  \"sellingPrice\": 95,\n  \"status\": \"ACTIVE\",\n  \"notes\": \"Updated stock master\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Inventory",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/inventory/delete/{{inventoryId}}"
+          }
+        },
+        {
+          "name": "Stock In",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/inventory/stock-in/{{inventoryId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 25\n}"
+            }
+          }
+        },
+        {
+          "name": "Stock Out",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/inventory/stock-out/{{inventoryId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 5\n}"
+            }
+          }
+        },
+        {
+          "name": "Adjust Stock",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/inventory/adjust-stock/{{inventoryId}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": -2,\n  \"reason\": \"Damaged items\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Low Stock Items",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inventory/low-stock"
+          }
+        },
+        {
+          "name": "Expiring Items",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inventory/expiring-items?days={{expiringDays}}"
           }
         }
       ]

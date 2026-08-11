@@ -13,6 +13,7 @@ import qrMenuRoutes from "../modules/qr-menu/index.js";
 import reservationRoutes from "../modules/reservation/index.js";
 import paymentRoutes from "../modules/payment/index.js";
 import inventoryRoutes from "../modules/inventory/index.js";
+import supplierRoutes from "../modules/supplier/index.js";
 const router = Router();
 
 router.use("/auth", authRoutes);
@@ -28,5 +29,6 @@ router.use("/qr-menu", qrMenuRoutes);
 router.use("/reservation", reservationRoutes);
 router.use("/payment", paymentRoutes);
 router.use("/inventory", inventoryRoutes);
+router.use("/supplier", supplierRoutes);
 
 export default router;
