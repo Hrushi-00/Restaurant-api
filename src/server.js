@@ -15,7 +15,7 @@ const shutdown = async (signal) => {
     console.error("BullMQ shutdown failed:", error.message);
   }
 
-  try {
+  try { 
     await disconnectRedis();
   } catch (error) {
     console.error("Redis disconnect failed:", error.message);
