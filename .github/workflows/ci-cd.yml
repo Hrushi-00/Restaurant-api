@@ -105,7 +105,7 @@ jobs:
           CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
           CONTAINER_PORT: ${{ env.CONTAINER_PORT }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-          GHCR_USERNAME: ${{ github.actor }}
+          GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
           JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
