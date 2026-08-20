@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
 
-import app from "../src/app.js";
+process.env.NODE_ENV = "test";
+process.env.DISABLE_DOTENV = "true";
+delete process.env.REDIS_URL;
+
+const { default: app } = await import("../src/app.js");
 
 const startServer = async () =>
   new Promise((resolve) => {

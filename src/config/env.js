@@ -1,3 +1,5 @@
 import dotenv from "dotenv";
 
-dotenv.config();
+if (process.env.DISABLE_DOTENV !== "true") {
+  dotenv.config();
+}
