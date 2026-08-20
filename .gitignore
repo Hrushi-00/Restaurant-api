@@ -87,6 +87,8 @@ uploads/*
 # ===========================
 reports/
 swagger-output.json
+!src/modules/reports/
+!src/modules/reports/**
 
 # ===========================
 # Docker
