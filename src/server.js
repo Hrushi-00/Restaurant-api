@@ -11,7 +11,7 @@ const shutdown = async (signal) => {
 
   try {
     await closeBullMQ();
-  } catch (error) {
+  } catch (error) { 
     console.error("BullMQ shutdown failed:", error.message);
   }
 
