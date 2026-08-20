@@ -1,0 +1,237 @@
+{
+  "info": {
+    "_postman_id": "restroflow-purchase-module-2026",
+    "name": "RestroFlow - Purchase Module",
+    "description": "Postman collection for RestroFlow Purchase APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api/v1"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "supplierId",
+      "value": ""
+    },
+    {
+      "key": "inventoryId",
+      "value": ""
+    },
+    {
+      "key": "inventoryId2",
+      "value": ""
+    },
+    {
+      "key": "purchaseId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Purchase",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"supplierId\": \"{{supplierId}}\",\n  \"items\": [\n    {\n      \"inventoryId\": \"{{inventoryId}}\",\n      \"quantity\": 10,\n      \"purchasePrice\": 120,\n      \"tax\": 18,\n      \"discount\": 0\n    },\n    {\n      \"inventoryId\": \"{{inventoryId2}}\",\n      \"quantity\": 5,\n      \"purchasePrice\": 80,\n      \"tax\": 8,\n      \"discount\": 0\n    }\n  ],\n  \"discount\": 20,\n  \"tax\": 26,\n  \"shippingCharge\": 50,\n  \"paymentMethod\": \"CREDIT\",\n  \"paidAmount\": 500,\n  \"purchaseDate\": \"2026-08-12\",\n  \"expectedDeliveryDate\": \"2026-08-15\",\n  \"invoiceNumber\": \"INV-1001\",\n  \"notes\": \"Monthly inventory purchase\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/purchase/create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "purchase",
+            "create"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Purchase List",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/purchase/list?page=1&limit=10",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "purchase",
+            "list"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Purchase Details",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/purchase/details/{{purchaseId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "purchase",
+            "details",
+            "{{purchaseId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Purchase",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"discount\": 30,\n  \"shippingCharge\": 40,\n  \"expectedDeliveryDate\": \"2026-08-16\",\n  \"notes\": \"Updated purchase details\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/purchase/update/{{purchaseId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "purchase",
+            "update",
+            "{{purchaseId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Receive Purchase",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/purchase/receive/{{purchaseId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "purchase",
+            "receive",
+            "{{purchaseId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Cancel Purchase",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/purchase/cancel/{{purchaseId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "purchase",
+            "cancel",
+            "{{purchaseId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete Purchase",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/purchase/delete/{{purchaseId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "purchase",
+            "delete",
+            "{{purchaseId}}"
+          ]
+        }
+      }
+    }
+  ]
+}

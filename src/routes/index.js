@@ -14,6 +14,14 @@ import reservationRoutes from "../modules/reservation/index.js";
 import paymentRoutes from "../modules/payment/index.js";
 import inventoryRoutes from "../modules/inventory/index.js";
 import supplierRoutes from "../modules/supplier/index.js";
+import purchaseRoutes from "../modules/purchase/index.js";
+import stockMovementRoutes from "../modules/stock-movement/index.js";
+import reportsRoutes from "../modules/reports/index.js";
+import notificationRoutes from "../modules/notification/index.js";
+import auditLogRoutes from "../modules/audit/index.js";
+import settingsRoutes from "../modules/settings/index.js";
+import couponRoutes from "../modules/coupon/index.js";
+
 const router = Router();
 
 router.use("/auth", authRoutes);
@@ -30,5 +38,12 @@ router.use("/reservation", reservationRoutes);
 router.use("/payment", paymentRoutes);
 router.use("/inventory", inventoryRoutes);
 router.use("/supplier", supplierRoutes);
+router.use("/purchase", purchaseRoutes);
+router.use(  "/stock-movement",stockMovementRoutes);
+router.use("/reports", reportsRoutes);
+router.use("/notifications", notificationRoutes);
+router.use("/audit-logs", auditLogRoutes);
+router.use(  "/settings",  settingsRoutes);
+router.use(  "/coupons",  couponRoutes);
 
 export default router;

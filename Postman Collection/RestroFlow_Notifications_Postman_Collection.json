@@ -1,0 +1,169 @@
+{
+  "info": {
+    "_postman_id": "restroflow-notifications-2026",
+    "name": "RestroFlow - Notifications",
+    "description": "Postman collection for RestroFlow Notification APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api/v1"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "recipientId",
+      "value": ""
+    },
+    {
+      "key": "notificationId",
+      "value": ""
+    },
+    {
+      "key": "referenceId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Notification",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"recipientId\": \"{{recipientId}}\",\n  \"type\": \"NEW_ORDER\",\n  \"title\": \"New Order Received\",\n  \"message\": \"A new dine-in order has been received.\",\n  \"referenceType\": \"ORDER\",\n  \"referenceId\": \"{{referenceId}}\",\n  \"metadata\": {\n    \"orderNumber\": \"ORD-20260812-0001\"\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/notifications/create"
+        }
+      }
+    },
+    {
+      "name": "Notification List",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/list?page=1&limit=20",
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Unread Notifications",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/unread"
+        }
+      }
+    },
+    {
+      "name": "Notification List - Unread Only",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/list?page=1&limit=20&isRead=false",
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            },
+            {
+              "key": "isRead",
+              "value": "false"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Mark Notification As Read",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/read/{{notificationId}}"
+        }
+      }
+    },
+    {
+      "name": "Mark All Notifications As Read",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/read-all"
+        }
+      }
+    },
+    {
+      "name": "Delete Notification",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/delete/{{notificationId}}"
+        }
+      }
+    }
+  ]
+}

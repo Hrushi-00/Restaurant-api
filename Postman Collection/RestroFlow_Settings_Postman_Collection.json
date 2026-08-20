@@ -1,0 +1,58 @@
+{
+  "info": {
+    "_postman_id": "restroflow-settings-2026",
+    "name": "RestroFlow - Settings",
+    "description": "Postman collection for RestroFlow Restaurant Settings APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api/v1"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Get Settings",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/settings"
+        }
+      }
+    },
+    {
+      "name": "Update Settings",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"restaurantName\": \"RestroFlow Restaurant\",\n  \"logo\": \"\",\n  \"phone\": \"9876543211\",\n  \"email\": \"restaurant@example.com\",\n  \"address\": {\n    \"street\": \"Main Road\",\n    \"city\": \"Pune\",\n    \"state\": \"Maharashtra\",\n    \"pincode\": \"411001\",\n    \"country\": \"India\"\n  },\n  \"tax\": {\n    \"enabled\": true,\n    \"gstEnabled\": true,\n    \"gstNumber\": \"27ABCDE1234F1Z5\",\n    \"taxPercentage\": 5\n  },\n  \"currency\": \"INR\",\n  \"orderSettings\": {\n    \"dineInEnabled\": true,\n    \"takeawayEnabled\": true,\n    \"deliveryEnabled\": true,\n    \"onlineOrderEnabled\": true\n  },\n  \"paymentSettings\": {\n    \"cashEnabled\": true,\n    \"upiEnabled\": true,\n    \"cardEnabled\": true,\n    \"razorpayEnabled\": true\n  },\n  \"invoiceSettings\": {\n    \"invoicePrefix\": \"INV\",\n    \"showTax\": true,\n    \"showRestaurantAddress\": true,\n    \"footerText\": \"Thank you for visiting!\"\n  },\n  \"notificationSettings\": {\n    \"lowStockEnabled\": true,\n    \"newOrderEnabled\": true,\n    \"paymentEnabled\": true\n  },\n  \"businessHours\": {\n    \"monday\": {\"open\": \"09:00\", \"close\": \"22:00\", \"enabled\": true},\n    \"tuesday\": {\"open\": \"09:00\", \"close\": \"22:00\", \"enabled\": true},\n    \"wednesday\": {\"open\": \"09:00\", \"close\": \"22:00\", \"enabled\": true},\n    \"thursday\": {\"open\": \"09:00\", \"close\": \"22:00\", \"enabled\": true},\n    \"friday\": {\"open\": \"09:00\", \"close\": \"22:00\", \"enabled\": true},\n    \"saturday\": {\"open\": \"09:00\", \"close\": \"22:00\", \"enabled\": true},\n    \"sunday\": {\"open\": \"10:00\", \"close\": \"20:00\", \"enabled\": false}\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/settings"
+        }
+      }
+    }
+  ]
+}

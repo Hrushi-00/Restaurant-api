@@ -1,0 +1,165 @@
+{
+  "info": {
+    "_postman_id": "restroflow-stock-movement-2026",
+    "name": "RestroFlow - Stock Movement",
+    "description": "Postman collection for RestroFlow Stock Movement APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api/v1"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "inventoryId",
+      "value": ""
+    },
+    {
+      "key": "movementId",
+      "value": ""
+    },
+    {
+      "key": "referenceType",
+      "value": "PURCHASE"
+    },
+    {
+      "key": "referenceId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Stock Movement - Manual In",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"inventoryId\": \"{{inventoryId}}\",\n  \"movementType\": \"MANUAL_IN\",\n  \"quantity\": 10,\n  \"referenceType\": \"MANUAL\",\n  \"reason\": \"Initial stock entry\",\n  \"notes\": \"Manual stock addition\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/stock-movement/create"
+        }
+      }
+    },
+    {
+      "name": "Create Stock Movement - Manual Out",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"inventoryId\": \"{{inventoryId}}\",\n  \"movementType\": \"MANUAL_OUT\",\n  \"quantity\": 2,\n  \"referenceType\": \"MANUAL\",\n  \"reason\": \"Damaged stock\",\n  \"notes\": \"Manual stock deduction\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/stock-movement/create"
+        }
+      }
+    },
+    {
+      "name": "Create Stock Movement - Adjustment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"inventoryId\": \"{{inventoryId}}\",\n  \"movementType\": \"ADJUSTMENT\",\n  \"quantity\": 1,\n  \"newStock\": 25,\n  \"referenceType\": \"ADJUSTMENT\",\n  \"reason\": \"Physical stock count correction\",\n  \"notes\": \"Adjusted after stock verification\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/stock-movement/create"
+        }
+      }
+    },
+    {
+      "name": "Stock Movement List",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/stock-movement/list?page=1&limit=10"
+        }
+      }
+    },
+    {
+      "name": "Stock Movement Details",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/stock-movement/details/{{movementId}}"
+        }
+      }
+    },
+    {
+      "name": "Inventory Movement History",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/stock-movement/inventory/{{inventoryId}}?page=1&limit=20"
+        }
+      }
+    },
+    {
+      "name": "Reference Movement History",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/stock-movement/reference/{{referenceType}}/{{referenceId}}"
+        }
+      }
+    }
+  ]
+}

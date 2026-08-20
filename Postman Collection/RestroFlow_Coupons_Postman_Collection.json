@@ -1,0 +1,171 @@
+{
+  "info": {
+    "_postman_id": "restroflow-coupons-2026",
+    "name": "RestroFlow - Coupons",
+    "description": "Postman collection for RestroFlow Coupon APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api/v1"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "couponId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Coupon",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"WELCOME10\",\n  \"description\": \"10 percent welcome discount\",\n  \"discountType\": \"PERCENTAGE\",\n  \"discountValue\": 10,\n  \"minimumOrderAmount\": 200,\n  \"maximumDiscountAmount\": 100,\n  \"startDate\": \"2026-08-14T00:00:00.000Z\",\n  \"endDate\": \"2026-12-31T23:59:59.000Z\",\n  \"usageLimit\": 100,\n  \"isActive\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/coupons/create"
+        }
+      }
+    },
+    {
+      "name": "Get Coupons",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coupons/list?page=1&limit=20",
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Coupon Details",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coupons/details/{{couponId}}"
+        }
+      }
+    },
+    {
+      "name": "Validate Coupon",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"WELCOME10\",\n  \"orderAmount\": 500\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/coupons/validate"
+        }
+      }
+    },
+    {
+      "name": "Update Coupon",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"description\": \"Updated welcome discount\",\n  \"discountValue\": 15,\n  \"maximumDiscountAmount\": 150\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/coupons/update/{{couponId}}"
+        }
+      }
+    },
+    {
+      "name": "Update Coupon Status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"isActive\": false\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/coupons/status/{{couponId}}"
+        }
+      }
+    },
+    {
+      "name": "Delete Coupon",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/coupons/delete/{{couponId}}"
+        }
+      }
+    }
+  ]
+}
